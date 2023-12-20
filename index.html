@@ -1,123 +1,160 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<title>New tab</title>
-<style type="text/css">
-
-body {
-  background-color: #0e0e0e;
-  color: #000000;
-  font-family: Times new roman, sans-serif;
-}
-
-a {
-  color: #bcbcbc;
-}
-
-a:active {
-  color: #bcbcbc;
-}
-
-a:visited {
-  color: #bcbcbc;
-}
-
-a:hover {
-  background-color: #5970ab;
-}
-
-.shortcut {
-  color: #f50b1c;
-  font-weight: bold;
-}
-
-.small {
-  font-size: 0.5rem;
-}
-
-.rows {
-  display: flex;
-  flex-direction: column;
-  row-gap: 26px;
-}
-
-.row {
-  align-items: baseline;
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 26px;
-  column-gap: 182px;
-}
-
-.link {
-  white-space: nowrap;
-}
-
-#editDiv {
-  margin-top: 2rem;
-  text-align: center;
-}
-
-button {
-  background: none;
-  border: 0;
-  color: #bcbcbc;
-  cursor: pointer;
-  font-family: Times new roman, sans-serif;
-}
-
-button:hover {
-  background-color: #5970ab;
-}
-
-</style>
-<script id="homepageJson" type="application/json">
-{"rows":[[{"text":"Reddit","url":"https://reddit.com/","isSmallText":false,"keyboardShortcut":"r","id":"lprazsb1"},{"text":"Twitter","url":"https://twitter.com/","isSmallText":false,"keyboardShortcut":"t","id":"lprb2pda"},{"text":"Youtube","url":"https://youtube.com/","isSmallText":false,"keyboardShortcut":"y","id":"lprb2s6r"},{"text":"Instagram","url":"https://instagram.com/","isSmallText":false,"keyboardShortcut":"i","id":"lprb2pyg"}],[{"text":"Twitch","url":"https://www.twitch.tv/AdamLearnsLive","isSmallText":false,"keyboardShortcut":null,"id":"lq2zdcjx"},{"text":"Weather","url":"https://www.google.com/search?q=weather&oq=weather&gs_lcrp=EgZjaHJvbWUqEQgAEEUYJxg7GJ0CGIAEGIoFMhEIABBFGCcYOxidAhiABBiKBTIGCAEQRRhAMg4IAhBFGCcYOxiABBiKBTINCAMQABiDARixAxiABDIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPDIGCAcQRRg80gEIMTI4NGoxajOoAgCwAgA&sourceid=chrome&ie=UTF-8","isSmallText":false,"keyboardShortcut":"w","id":"lq2z8tcw"},{"text":"Sky News","url":"https://news.sky.com/uk","isSmallText":false,"keyboardShortcut":null,"id":"lprgtkg9"},{"text":"Netflix","url":"https://netflix.com/","isSmallText":false,"keyboardShortcut":null,"id":"lprgtsb0"}]],"homepagerizerAddress":"https://homepagerizer.vercel.app","fontFamily":"Times new roman","horizontalSpacing":182,"verticalSpacing":26,"homepageTitle":"My Homepage","bgColor":"#0e0e0e","textColor":"#000000","linkColor":"#bcbcbc","accentColor":"#f50b1c","hoverColor":"#5970ab","homepageVersion":1}
-</script>
-<script type="text/javascript">
-
-  const homepageJsonEle = document.getElementById('homepageJson');
-  const json = JSON.parse(homepageJsonEle.text);
-  const keysToUrls = {};
-  json.rows.forEach((row) => {
-    row.forEach((item) => {
-      if (item.keyboardShortcut != null && item.url != null && item.url != '') {
-        keysToUrls[item.keyboardShortcut] = item.url;
-      }
-    });
-  });
-  window.addEventListener("keydown", ({ctrlKey, altKey, metaKey, key}) => {
-    let url = keysToUrls[key];
-    if (url && !ctrlKey && !altKey && !metaKey) {
-      const regex = /^\w+:/g;
-      if (!url.match(regex)) {
-        url = 'https://' + url;
-      }
-      window.location.href = url;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab</title>
+  <script src="https://kit.fontawesome.com/725b2de844.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      overflow: hidden; /* Prevents horizontal scrollbars */
+      background-color: #121212; /* Dark background color */
+      color: #fff; /* Light text color */
     }
-  });
 
-  function editHomepage() {
-    const encodedJson = encodeURIComponent(JSON.stringify(json));
-    window.location.href = json.homepagerizerAddress + '/?encodedjson=' + encodedJson;
-  }
+    #header-container {
+      text-align: center;
+      padding: 20px;
+      background-color: #333; /* Darker background color */
+    }
 
-</script>
+    #date-time {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #fff; /* White text color */
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #date {
+      text-align: left;
+    }
+
+    #time {
+      text-align: right;
+    }
+
+    #grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+      padding: 16px;
+      /* Remove padding to make the grid fill the entire width */
+      /* Increase the gap between rows */
+      grid-row-gap: 15px; /* Adjusted gap between rows */
+    }
+
+    .grid-item {
+      text-align: center;
+      padding: 20px;
+      border: 2px solid #333; /* Darker border color */
+      border-radius: 8px;
+      transition: background-color 0.3s ease-in-out;
+      /* Make all grid items 2 columns wide */
+      grid-column: span 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 125px;
+    }
+
+    .grid-item:hover {
+      background-color: #333; /* Darker background color on hover */
+    }
+
+    .icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff; /* Light text color for links */
+      display: block;
+      /* Set the anchor to fill the entire grid item */
+      height: 100%;
+    }
+
+    
+  </style>
 </head>
 <body>
-<span class="rows">
-<div class="row"><a class="link" href=https://reddit.com/><span class="shortcut">R</span>eddit</a>
-<a class="link" href=https://twitter.com/><span class="shortcut">T</span>witter</a>
-<a class="link" href=https://youtube.com/><span class="shortcut">Y</span>outube</a>
-<a class="link" href=https://instagram.com/><span class="shortcut">I</span>nstagram</a>
-</div><div class="row"><a class="link" href=https://www.twitch.tv/AdamLearnsLive>Twitch</a>
-<a class="link" href=https://www.google.com/search?q=weather&oq=weather&gs_lcrp=EgZjaHJvbWUqEQgAEEUYJxg7GJ0CGIAEGIoFMhEIABBFGCcYOxidAhiABBiKBTIGCAEQRRhAMg4IAhBFGCcYOxiABBiKBTINCAMQABiDARixAxiABDIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPDIGCAcQRRg80gEIMTI4NGoxajOoAgCwAgA&sourceid=chrome&ie=UTF-8><span class="shortcut">W</span>eather</a>
-<a class="link" href=https://news.sky.com/uk>Sky News</a>
-<a class="link" href=https://netflix.com/>Netflix</a>
-</div>
-</span>
-<div id="editDiv"><button id="edit" onclick="editHomepage();">✏ Edit Homepage</button></div>
+
+  <!-- Header container with date, time, and weather -->
+  <div id="header-container">
+    <div id="date-time">
+      <span id="date"></span>
+      <span id="time"></span>
+    </div>
+  </div>
+
+  <!-- Grid container with links -->
+  <div id="grid-container">
+    <!-- Additional links with larger boxes and a second row -->
+    <a href="https://reddit.com" class="grid-item">
+      <i class="fa-brands fa-reddit icon"></i> <!-- Reddit icon above -->
+      <span class="link-text">Reddit</span>
+    </a>
+
+    <a href="https://twitter.com" class="grid-item">
+      <i class="fa-brands fa-twitter icon"></i> <!-- Bird icon above -->
+      <span class="link-text">Twitter</span>
+    </a>
+
+    <a href="https://youtube.com" class="grid-item">
+      <i class="fa-brands fa-youtube icon"></i> <!-- Play button icon above -->
+      <span class="link-text">YouTube</span>
+    </a>
+
+    <a href="https://instagram.com" class="grid-item">
+      <i class="fa-brands fa-instagram icon"></i> <!-- Camera icon above -->
+      <span class="link-text">Instagram</span>
+    </a>
+
+    <a href="https://twitch.tv/AdamLearnsLive" class="grid-item">
+      <i class="fa-brands fa-twitch icon"></i> <!-- Video game controller icon above -->
+      <span class="link-text">Twitch</span>
+    </a>
+
+    <a href="https://www.google.com/search?q=weather&oq=weath&gs_lcrp=EgZjaHJvbWUqEQgAEEUYJxg7GJ0CGIAEGIoFMhEIABBFGCcYOxidAhiABBiKBTIGCAEQRRhAMgYIAhBFGDkyBggDEEUYOzIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPDIGCAcQRRg80gEIMjMzMWoxajSoAgCwAgA&sourceid=chrome&ie=UTF-8" class="grid-item">
+      <i class="fa-solid fa-cloud icon"></i> <!-- Umbrella icon above -->
+      <span class="link-text">Weather</span>
+    </a>
+
+    <a href="https://news.sky.com" class="grid-item">
+      <i class="fa-solid fa-newspaper icon"></i> <!-- Globe icon above -->
+      <span class="link-text">Sky News</span>
+    </a>
+
+    <a href="https://netflix.com" class="grid-item">
+      <i class="fa-solid fa-tv icon"></i> <!-- TV icon above -->
+      <span class="link-text">Netflix</span>
+    </a>
+
+    <!-- Add more rows and grid items here -->
+
+  </div>
+
+  <script>
+    // JavaScript code to update date and time
+    function updateDateTime() {
+      var currentDate = new Date();
+      var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('date').innerText = currentDate.toLocaleDateString('en-US', options);
+      document.getElementById('time').innerText = currentDate.toLocaleTimeString();
+    }
+
+    // Update date and time every second
+    setInterval(function () {
+      updateDateTime();
+    }, 1000);
+
+    // Initial update
+    updateDateTime();
+  </script>
 </body>
 </html>
