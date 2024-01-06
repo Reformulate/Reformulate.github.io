@@ -1,14 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Tab</title>
-  <script src="https://kit.fontawesome.com/725b2de844.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        .clock {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            font-size: 18px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .link {
+            text-decoration: none; /* Remove underline */
+            color: #fff;
+            background-color: #3498db;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+            transform: scale(1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .link:hover {
+            text-decoration: none; /* Remove underline */
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add dark mode styles */
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dark-mode .link {
+            background-color: #555;
+        }
+
+        .dark-mode .clock {
+            color: #fff; /* Clock text color in dark mode */
+        }
+
+        /* Add a dark mode class to the body */
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark-mode .link {
+            background-color: #555;
+        }
+
+        /* Position the toggle button */
+        #toggleDarkMode {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
 </head>
-<body>
-<p>hello</p>
-  
+<body class="light-mode">
+    <div class="container">
+        <!-- Add a button to toggle dark mode -->
+        <button id="toggleDarkMode">Toggle Dark Mode</button>
+
+        <div class="clock" id="clock"></div>
+        <div class="date" id="date"></div>
+        <div class="links">
+            <a href="https://www.reddit.com/" class="link">
+                <i class="fab fa-reddit"></i>
+                Reddit
+            </a>
+            <a href="https://twitter.com/" class="link">
+                <i class="fab fa-twitter"></i>
+                Twitter
+            </a>
+            <a href="https://www.youtube.com/" class="link">
+                <i class="fab fa-youtube"></i>
+                YouTube
+            </a>
+            <a href="https://www.instagram.com/" class="link">
+                <i class="fab fa-instagram"></i>
+                Instagram
+            </a>
+            <a href="https://www.twitch.tv/" class="link">
+                <i class="fab fa-twitch"></i>
+                Twitch
+            </a>
+            <a href="https://weather.com/" class="link">
+                <i class="fas fa-cloud-sun"></i>
+                Weather
+            </a>
+            <a href="https://news.sky.com/" class="link">
+                <i class="fas fa-newspaper"></i>
+                Sky News
+            </a>
+            <a href="https://www.netflix.com/" class="link">
+                <i class="fas fa-film"></i>
+                Netflix
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+        }
+
+        // Event listener for the toggleDarkMode button
+        document.getElementById('toggleDarkMode').addEventListener('click', toggleDarkMode);
+
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const formattedTime = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').innerText = formattedTime;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = now.toLocaleDateString('en-US', options);
+            document.getElementById('date').innerText = formattedDate;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html>
